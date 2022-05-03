@@ -6,6 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.Calendar;
 
+
 public class MonthCalendarAdapter extends FragmentStateAdapter {
     private static int NUM_ITEMS=100;
     public MonthCalendarAdapter(@NonNull MonthViewFragment fragmentActivity) {
