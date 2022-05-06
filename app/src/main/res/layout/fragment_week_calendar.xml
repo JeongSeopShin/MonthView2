@@ -108,7 +108,6 @@
                             android:orientation="horizontal"
                             android:fillViewport="true">
                     <ListView
-                        android:nestedScrollingEnabled="true"
                         android:id="@+id/listView"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"/>

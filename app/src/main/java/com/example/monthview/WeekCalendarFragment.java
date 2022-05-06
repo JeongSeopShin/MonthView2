@@ -3,6 +3,7 @@ package com.example.monthview;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,8 +21,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class WeekCalendarFragment extends Fragment {
+    // 캘린더 선언
     Calendar mCal;
-    int cellnum;// 캘린더 선언
+    int cellnum;
+
+    //실제 사용자가 터한 뷰를 가르키는 변수
+    private int mTouchStartView = 0;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -130,8 +136,8 @@ public class WeekCalendarFragment extends Fragment {
                 items);
         // 주간 달력의 시간을 나타내기 위해 리스트뷰를 연결함
         // 어댑터 연결
-        ListView list = rootView.findViewById(R.id.listView);
-        list.setAdapter(adapt2);
+        ListView listview = rootView.findViewById(R.id.listView);
+        listview.setAdapter(adapt2);
 
         // 공백의 그리드뷰를 표시하기 위해 각 칸에 공백을 추가함
         for(int i=0; i<7*24; i++)
@@ -153,6 +159,38 @@ public class WeekCalendarFragment extends Fragment {
         GridView gridview2 = rootView.findViewById(R.id.gridview3);
         // 어댑터를 GridView 객체에 연결
         gridview2.setAdapter(adapt3);
+        gridview2.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int id =  v.getId();			    //이벤트 들어온 뷰의 아이값
+                int action = event.getAction(); 	//이벤트 동작(다운, 무브, 업 등.)
+
+                //터치 다운이벤트가 들어오고, 기존에 터치된 뷰가 없으면
+                //즉, 현재 이벤트가 들어온 뷰가 사용자가 직접 터치한 뷰이면
+                if(action == MotionEvent.ACTION_DOWN && mTouchStartView == 0)
+                    mTouchStartView = id;	//뷰의 id값 저장.
+
+                //사용자가 터치한 뷰가 스크롤뷰 1번이고 (2번에 이벤트를 전달하기위해 구분)
+                //사용자가 직접 터치한 뷰이면 이벤트를 넘겨준다.
+                //사용자가 직접 터치 하지 않고 다른 뷰가 이벤트를 넘겨줬을 경우는 패스
+                if(mTouchStartView == R.id.listView && mTouchStartView == id)
+                    gridview2.dispatchTouchEvent(event);
+
+                    //2번 스크롤 뷰이면 1번에 이벤트 넘겨줌
+                else if(mTouchStartView == R.id.gridview3 && mTouchStartView == id)
+                    listview.dispatchTouchEvent(event);
+
+                //터치가 끝나면 변수 값 초기화.
+                //플링시 그 이벤트도 같이 전달하기 위해서 마지막에 검사.
+                //플링은 무시하려면 위에 있는 터치 다운 이벤트 검사 바로 다음으로 옮기면 플링은 무시한다.
+                if(action ==MotionEvent.ACTION_UP)
+                    mTouchStartView = 0;
+
+                return false;
+            }
+        });
+
         gridview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
