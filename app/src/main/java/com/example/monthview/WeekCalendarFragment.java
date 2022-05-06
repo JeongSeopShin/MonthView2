@@ -159,10 +159,10 @@ public class WeekCalendarFragment extends Fragment {
                 if(cellnum > 0)
                     // 날짜를 클릭했을 때에 cellnum이라는 변수가 1 이상이 되어
                     // 빈 그리드뷰의 칸을하면 해당 칸의 날짜와 시간이 출력됨
-                    Toast.makeText(getActivity(), mParam1 + "." + mParam2 + "." + cellnum + "." + (position-1)*7/24/2 + "시", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), mParam1 + "." + mParam2 + "." + cellnum + "." + (position-1)*7/24/2 + "시", Toast.LENGTH_SHORT).show();
 
                     // 빈 그리드뷰의 칸을하면 해당 칸의 position이 토스트메시지로 출력된다.
-                    //Toast.makeText(getActivity(),"position=" + position, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"position=" + position, Toast.LENGTH_SHORT).show();
             }
         });
         return rootView;
