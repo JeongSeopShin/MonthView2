@@ -159,31 +159,31 @@ public class WeekCalendarFragment extends Fragment {
         GridView gridview2 = rootView.findViewById(R.id.gridview3);
         // 어댑터를 GridView 객체에 연결
         gridview2.setAdapter(adapt3);
+        // 그리드뷰 스크롤시 리스트뷰도 같이 스크롤됨
         gridview2.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int id =  v.getId();			    //이벤트 들어온 뷰의 아이값
-                int action = event.getAction(); 	//이벤트 동작(다운, 무브, 업 등.)
+                int id =  v.getId();			    // 이벤트 들어온 뷰의 아이값
+                int action = event.getAction(); 	// 이벤트 동작(다운, 무브, 업 등.)
 
-                //터치 다운이벤트가 들어오고, 기존에 터치된 뷰가 없으면
-                //즉, 현재 이벤트가 들어온 뷰가 사용자가 직접 터치한 뷰이면
+                // 터치 다운이벤트가 들어오고, 기존에 터치된 뷰가 없으면
+                // 즉, 현재 이벤트가 들어온 뷰가 사용자가 직접 터치한 뷰이면
                 if(action == MotionEvent.ACTION_DOWN && mTouchStartView == 0)
-                    mTouchStartView = id;	//뷰의 id값 저장.
+                    mTouchStartView = id;	// 뷰의 id값 저장.
 
-                //사용자가 터치한 뷰가 스크롤뷰 1번이고 (2번에 이벤트를 전달하기위해 구분)
-                //사용자가 직접 터치한 뷰이면 이벤트를 넘겨준다.
-                //사용자가 직접 터치 하지 않고 다른 뷰가 이벤트를 넘겨줬을 경우는 패스
+                // 사용자가 터치한 뷰가 스크롤뷰 리스트뷰 (2번에 이벤트를 전달하기위해 구분)
+                // 사용자가 직접 터치한 뷰이면 이벤트를 넘겨준다.
+                // 사용자가 직접 터치 하지 않고 다른 뷰가 이벤트를 넘겨줬을 경우는 패스
                 if(mTouchStartView == R.id.listView && mTouchStartView == id)
                     gridview2.dispatchTouchEvent(event);
 
-                    //2번 스크롤 뷰이면 1번에 이벤트 넘겨줌
+                // 그리드뷰이면 리스트뷰에 이벤트 넘겨줌
                 else if(mTouchStartView == R.id.gridview3 && mTouchStartView == id)
                     listview.dispatchTouchEvent(event);
 
-                //터치가 끝나면 변수 값 초기화.
-                //플링시 그 이벤트도 같이 전달하기 위해서 마지막에 검사.
-                //플링은 무시하려면 위에 있는 터치 다운 이벤트 검사 바로 다음으로 옮기면 플링은 무시한다.
+                // 터치가 끝나면 변수 값 초기화.
+                // 플링시 그 이벤트도 같이 전달하기 위해서 마지막에 검사.
+                // 플링은 무시하려면 위에 있는 터치 다운 이벤트 검사 바로 다음으로 옮기면 플링은 무시한다.
                 if(action ==MotionEvent.ACTION_UP)
                     mTouchStartView = 0;
 
