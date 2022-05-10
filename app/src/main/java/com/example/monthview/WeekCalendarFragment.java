@@ -25,7 +25,7 @@ public class WeekCalendarFragment extends Fragment {
     Calendar mCal;
     int cellnum;
 
-    //실제 사용자가 터한 뷰를 가르키는 변수
+    //실제 사용자가 터치한 뷰를 가르키는 변수
     private int mTouchStartView = 0;
 
     // TODO: Rename parameter arguments, choose names that match
